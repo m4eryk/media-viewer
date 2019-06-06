@@ -4,7 +4,7 @@
 
 # Branch
 
-	Вы находитесь в ветке master
+	Вы находитесь в ветке master 
 	
 ## Project setup
 ```
