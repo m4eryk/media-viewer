@@ -1,39 +1,33 @@
 <template>
-    <div id="image">
+    <div id="imageView">
         <div class="view">
-            <img src="../assets/album/face.jpg" alt="">
+            <img :src=activimg alt="">
         </div>
-        <main>
-            <div class="carousel">
-                <carousel-3d style="height:150px; width: 800px;"   >
-                    <slide :index="0"  style="width: 150px; height:150px;" >
-                        <img src="../assets/album/Drake.jpg" alt="">
-                    </slide>
-                    <slide :index="1"  style="width: 150px; height:150px;" >
-                        <img src="../assets/album/face.jpg" alt="">
-                    </slide>
-                    <slide :index="2"  style="width: 150px; height:150px;">
-                        <img src="../assets/album/Hardwired.jpg" alt="">
-                    </slide>
-                    <slide :index="3"  style="width: 150px; height:150px;">
-                        <img src="../assets/album/BeerbongsBentley.jpg" alt="">
-                    </slide>
-                </carousel-3d>
-            </div> 
-        </main>
+        <CarouselCard :interval="7000" height="220px" type="card" arrow="always" class="carousel">
+            <CarouselCardItem v-for="img in arr" :key="img" @click="activimg = img">
+                <img :src=img  alt="" @click="activimg = img">
+            </CarouselCardItem>
+        </CarouselCard>
     </div>
 </template>
 
 <script>
-import { Carousel3d, Slide } from 'vue-carousel-3d';
+import { CarouselCard, CarouselCardItem } from 'vue-carousel-card'
+import 'vue-carousel-card/styles/index.css'
+
 export default {
-    name: 'image',
-  components: {
-    Carousel3d,
-    Slide
+    name: 'imageView',
+  components: { CarouselCard, CarouselCardItem
   },
   data() {
       return {
+        activimg  : "",
+        arr : [ "/album/BeerbongsBentley.jpg",
+            "/album/BillieEilish.jpg",
+            "/album/Drake.jpg",
+            "/album/Hardwired.jpg",
+            "/album/image.jpg"
+        ]
       };
     },
   methods: {
@@ -42,7 +36,7 @@ export default {
 </script>
 
 <style scoped>
-#image{
+#imageView{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -52,12 +46,28 @@ export default {
   width: 100%;  
 }
 .view{
-    width: 600px;
-    height: 300px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #f44336;
+    width: 70%;
+    height: 50%;
+}
+h1 {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FFF;
+  background: linear-gradient(90deg, rgba(88,140,236,1), rgba(106,106,207,1))
 }
 .view img{
-    width: 500px;
-    height: 300px;
+    width: 70%;
+    height: 70%;
 }
 main{ 
     display: flex;
@@ -72,7 +82,6 @@ main video{
     height: 150px;
 }
 .carousel{
-    width: 800px;
-    margin-left: 150px;
+    width: 500px;
 }
 </style>

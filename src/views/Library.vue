@@ -6,27 +6,40 @@
          <i class="fas fa-search"></i>
        </header>
        <ul>
-        <li><router-link to="/library/movies" class="router"><i class="fas fa-folder"></i>Movies</router-link></li>
-        <li><router-link to="/library/music" class="router"><i class="fas fa-folder"></i>Music</router-link></li>
-        <li><router-link to="/library/image" class="router"><i class="fas fa-folder"></i>Image</router-link></li>
+        <li @click="getContent()"><router-link to="/library/movies" class="router"><i class="fas fa-folder"></i>Movies</router-link></li>
+        <li @click="getContent()"><router-link to="/library/music" class="router"><i class="fas fa-folder"></i>Music</router-link></li>
+        <li @click="getContent()"><router-link to="/library/image" class="router"><i class="fas fa-folder"></i>Image</router-link></li>
       </ul>
       </nav>
       <main>
-        <router-view></router-view>
+        <router-view v-bind:content='content'></router-view>
       </main>
     </div>
 </template>
 
 <script>
+/*eslint no-console: "off"*/
 export default {
     name: 'Library',
   components: {
   },
   data() {
       return {
+        content : []
       };
     },
   methods: {
+    getContent(){
+      this.$http.get('http://localhost:3000/content/getContent')
+        .then( response => { 
+          this.content=response.data;
+        });
+    }
+  },
+  mounted() {
+    window.addEventListener('DOMContentLoaded', () => {
+      this.getContent();
+    })
   }
 }
 </script>

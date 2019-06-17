@@ -93,7 +93,7 @@ export default {
     margin-right: 15px;
     width: 970px;
     border: 1px solid #f44336;
-    background-color: #f7d3d085;
+    background-color: #fff6f6;
     display: flex;
     flex-direction: row;
 }

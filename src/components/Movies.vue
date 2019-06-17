@@ -1,47 +1,70 @@
 <template>
     <div id="movies">
         <div class="player">
-            <video controls src="../assets/BlackHole.mp4"  type="video/mp4">
+            <video  v-bind:src="video"  type="video/mp4" ref='video' width="100%" height="100%" controls>
                 I'm sorry; your browser doesn't support HTML5 video.
             </video>
+            <!--<div class="contrl" >
+                <i class="fas fa-play" @click="played()" v-if="play"></i>
+                <i class="fas fa-pause" @click="played()" v-if="pause"></i>
+                <i class="fas fa-redo"   @click="$refs.video.currentTime=0" ></i>
+                <i class="fas fa-compress" @click="requestFullscreen()"></i>
+                <progress   class="progress" :max="duration * 60" :value="time"></progress>
+                <span>{{duration}}</span>
+            </div>-->
         </div>
-        <main>
-            <div class="carousel">
-                <carousel-3d style="height:150px; width: 800px;"   >
-                    <slide :index="0"  style="width: 150px; height:150px;" >
-                        <video  src="../assets/BlackHole.mp4"  type="video/mp4">
-                        I'm sorry; your browser doesn't support HTML5 video.
-                        </video>
-                    </slide>
-                    <slide :index="1"  style="width: 150px; height:150px;">
-                        <video  src="../assets/BlackHole.mp4"  type="video/mp4">
-                        I'm sorry; your browser doesn't support HTML5 video.
-                        </video>
-                    </slide>
-                    <slide :index="2"  style="width: 150px; height:150px;">
-                        <video  src="../assets/BlackHole.mp4"  type="video/mp4">
-                        I'm sorry; your browser doesn't support HTML5 video.
-                        </video>
-                    </slide>
-                </carousel-3d>
-            </div> 
-        </main>
+        <CarouselCard :interval="7000" height="220px" type="card" arrow="always" class="carousel">
+            <CarouselCardItem v-for="item in content" :key="item.id" >
+                <video v-bind:src=item.path  type="video/mp4" height="170px" @click="choiseVideo(item.path)">   
+                    I'm sorry; your browser doesn't support HTML5 video.
+                </video>
+            </CarouselCardItem>
+        </CarouselCard>
     </div>
 </template>
 
 <script>
-import { Carousel3d, Slide } from 'vue-carousel-3d';
+import { CarouselCard, CarouselCardItem } from 'vue-carousel-card'
+import 'vue-carousel-card/styles/index.css'
 export default {
     name: 'movies',
-  components: {
-    Carousel3d,
-    Slide
+  components: { CarouselCard, CarouselCardItem
   },
   data() {
       return {
+        play : true,
+        pause : false,
+        time: 0,
+        duration : '0:0',
+        video : ''
       };
-    },
+  },
+  props: {
+    content : Array
+  },
   methods: {
+      /*eslint no-console: "off"*/
+    played(){
+      this.duration=(this.$refs.video.duration/60).toFixed(2);
+      if( this.$refs.video.paused){
+          this.$refs.video.play();
+          this.play=false;
+          this.pause=true;
+          this.time=this.$refs.video.currentTime;
+          console.log(this.time)
+      }else{         
+          this.$refs.video.pause();
+          this.pause=false;
+          this.play=true;
+      }
+    },
+    requestFullscreen(){
+      this.$refs.video.requestFullscreen();
+    },
+    choiseVideo(src){
+      this.video=src
+      console.log(this.video)
+    }
   }
 }
 </script>
@@ -57,12 +80,36 @@ export default {
   width: 100%;  
 }
 .player{
-    width: 600px;
-    height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 50%;
+  height: 50%;
+  background-color: #fff6f6;
+  border: 2px solid #f44336;
 }
-.player video{
-    width: 600px;
-    height: 400px;
+.player .contrl{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 95%;
+  position: absolute;
+  bottom: 14px;
+  color: white;
+}
+.player .progress{
+  height: 5px;
+  background: white;
+  width: 70%;
+  border-radius: 10%;
+}
+.player .value{
+  border-radius: 10%;
+  height: 5px;
+  background: #f44336;
 }
 main{ 
     display: flex;
@@ -72,11 +119,7 @@ main{
     height: 200px;
     width: 100%;
 }
-main video{
-    width: 150px;
-    height: 150px;
-}
 .carousel{
-    width: 800px;
+    width: 500px;
 }
 </style>

@@ -3,8 +3,7 @@
     <nav class="nav">
       <span class="logo">MV</span>
       <div class="sign">
-        <router-link to="/login" class="login">LOGIN</router-link>
-        <router-link to="/registr" class="register bttn">SIGN UP</router-link>
+        <router-link to="/chosedivase" class="register bttn">LOGIN</router-link>
       </div>
     </nav>
     <div class="banner">
