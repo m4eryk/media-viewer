@@ -6,9 +6,9 @@
          <i class="fas fa-search"></i>
        </header>
        <ul>
-        <li @click="getContent()"><router-link to="/library/movies" class="router"><i class="fas fa-folder"></i>Movies</router-link></li>
-        <li @click="getContent()"><router-link to="/library/music" class="router"><i class="fas fa-folder"></i>Music</router-link></li>
-        <li @click="getContent()"><router-link to="/library/image" class="router"><i class="fas fa-folder"></i>Image</router-link></li>
+        <li @click="getContent('../public/content/','mp4')"><router-link to="/library/movies" class="router" active-class="router-active"><i class="fas fa-folder"></i>Movies</router-link></li>
+        <li @click="getContent('../public/content/','mp3')"><router-link to="/library/music" class="router" active-class="router-active"><i class="fas fa-folder"></i>Music</router-link></li>
+        <li @click="getContent('../public/content/','jpeg')"><router-link to="/library/image" class="router" active-class="router-active"><i class="fas fa-folder"></i>Image</router-link></li>
       </ul>
       </nav>
       <main>
@@ -29,8 +29,11 @@ export default {
       };
     },
   methods: {
-    getContent(){
-      this.$http.get('http://localhost:3000/content/getContent')
+    getContent( path, type ){ 
+      this.$http.post('http://localhost:3000/content/getContent', {
+        path: path,
+        type: type
+      })
         .then( response => { 
           this.content=response.data;
         });
@@ -60,6 +63,10 @@ nav{
 }
 .router{
   color: white;
+  text-decoration: none;
+}
+.router-active{
+  color: black;
   text-decoration: none;
 }
 header{

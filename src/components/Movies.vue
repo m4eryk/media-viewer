@@ -13,12 +13,14 @@
                 <span>{{duration}}</span>
             </div>-->
         </div>
-        <CarouselCard :interval="7000" height="220px" type="card" arrow="always" class="carousel">
-            <CarouselCardItem v-for="item in content" :key="item.id" >
-                <video v-bind:src=item.path  type="video/mp4" height="170px" @click="choiseVideo(item.path)">   
+        <CarouselCard :interval='0' height="220px" type="card"  class="carousel">
+          <div class="ite" v-for="item in content" :key="item.id"  >
+            <CarouselCardItem  v-if="item.type == 'mp4'">
+                <video  v-bind:src=item.path  type="video/mp4" height="170px" @click="choiseVideo(item.path)">   
                     I'm sorry; your browser doesn't support HTML5 video.
                 </video>
             </CarouselCardItem>
+          </div>
         </CarouselCard>
     </div>
 </template>

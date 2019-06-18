@@ -6,8 +6,9 @@ import { Content } from './content.entity';
 export class ContentController {
     constructor( private readonly contentService: ContentService){}
 
-    @Get('getContent')
-    async login(): Promise<any> {
-        return this.contentService.getContent('../public/content/');
+    @Post('getContent')
+    async getContent(@Body() props): Promise<any> {
+        console.log( props )
+        return this.contentService.getContent(props.path,props.type);
     } 
 }

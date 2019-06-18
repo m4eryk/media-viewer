@@ -14,9 +14,9 @@ export class ContentService {
         private contentRepository: Repository<Content> ) 
     { }
 
-    public async getContent(path){
+    public async getContent(path,type){
         let content = await this.checkContent(path)
-        return this.create(content)
+        return this.create(content,type)
     }
 
 
@@ -36,7 +36,7 @@ export class ContentService {
         return value
     }
 
-    private async create(content: object[]){
+    private async create(content: object[], type){
 
         
         for( let i=0 ; i < content.length ; i++){
@@ -50,12 +50,16 @@ export class ContentService {
                     name : cnt.name
                 }
             })
-            console.log(a);
+
             if( typeof(a) == 'undefined' ){
-                console.log(a);
                 await this.contentRepository.save(cnt);
             }
+            
         }
-        return content   
+        return await this.contentRepository.find({
+            where: {
+                type : type
+            }
+        })
     }
 }

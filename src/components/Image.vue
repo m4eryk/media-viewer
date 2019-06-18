@@ -3,10 +3,12 @@
         <div class="view">
             <img :src=activimg alt="">
         </div>
-        <CarouselCard :interval="7000" height="220px" type="card" arrow="always" class="carousel">
-            <CarouselCardItem v-for="img in arr" :key="img" @click="activimg = img">
-                <img :src=img  alt="" @click="activimg = img">
+        <CarouselCard :interval='0' height="220px" type="card"  class="carousel">
+          <div class="ite" v-for="item in content" :key="item.id"  >
+            <CarouselCardItem  v-if="item.type == 'jpeg'">
+                <img :src=item.path  alt="" @click="activimg = item.path">
             </CarouselCardItem>
+          </div>
         </CarouselCard>
     </div>
 </template>
@@ -19,15 +21,12 @@ export default {
     name: 'imageView',
   components: { CarouselCard, CarouselCardItem
   },
+  props : {
+      content : Array
+  },
   data() {
       return {
-        activimg  : "",
-        arr : [ "/album/BeerbongsBentley.jpg",
-            "/album/BillieEilish.jpg",
-            "/album/Drake.jpg",
-            "/album/Hardwired.jpg",
-            "/album/image.jpg"
-        ]
+        activimg  : ""
       };
     },
   methods: {
