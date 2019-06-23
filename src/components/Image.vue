@@ -21,8 +21,10 @@ export default {
     name: 'imageView',
   components: { CarouselCard, CarouselCardItem
   },
-  props : {
-      content : Array
+  computed:{
+    content(){
+      return this.$store.getters.content
+    }
   },
   data() {
       return {

@@ -41,8 +41,10 @@ export default {
         video : ''
       };
   },
-  props: {
-    content : Array
+  computed:{
+    content(){
+      return this.$store.getters.content
+    }
   },
   methods: {
       /*eslint no-console: "off"*/

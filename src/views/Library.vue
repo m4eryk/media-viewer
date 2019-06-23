@@ -6,13 +6,25 @@
          <i class="fas fa-search"></i>
        </header>
        <ul>
-        <li @click="getContent('../public/content/','mp4')"><router-link to="/library/movies" class="router" active-class="router-active"><i class="fas fa-folder"></i>Movies</router-link></li>
-        <li @click="getContent('../public/content/','mp3')"><router-link to="/library/music" class="router" active-class="router-active"><i class="fas fa-folder"></i>Music</router-link></li>
-        <li @click="getContent('../public/content/','jpeg')"><router-link to="/library/image" class="router" active-class="router-active"><i class="fas fa-folder"></i>Image</router-link></li>
+        <li @click="getContent('../public/content/','mp4')">
+          <router-link to="/library/movies" class="router" active-class="router-active">
+            <i class="fas fa-folder"></i>Movies
+          </router-link>
+        </li>
+        <li @click="getContent('../public/content/','mp3')">
+          <router-link to="/library/music" class="router" active-class="router-active">
+            <i class="fas fa-folder"></i>Music
+          </router-link>
+        </li>
+        <li @click="getContent('../public/content/','jpeg')">
+          <router-link to="/library/image" class="router" active-class="router-active">
+            <i class="fas fa-folder"></i>Image
+          </router-link>
+        </li>
       </ul>
       </nav>
       <main>
-        <router-view v-bind:content='content'></router-view>
+        <router-view></router-view>
       </main>
     </div>
 </template>
@@ -25,24 +37,17 @@ export default {
   },
   data() {
       return {
-        content : []
       };
     },
   methods: {
     getContent( path, type ){ 
-      this.$http.post('http://localhost:3000/content/getContent', {
-        path: path,
-        type: type
-      })
-        .then( response => { 
-          this.content=response.data;
-        });
+      const props={
+        path : path,
+        type : type
+      }
+      console.log(props)
+      this.$store.dispatch('getContent', props )
     }
-  },
-  mounted() {
-    window.addEventListener('DOMContentLoaded', () => {
-      this.getContent();
-    })
   }
 }
 </script>

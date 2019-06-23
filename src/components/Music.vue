@@ -52,8 +52,10 @@ export default {
     name: 'music',
   components: {
   },
-  props : {
-      content : Array
+  computed:{
+    content(){
+      return this.$store.getters.content
+    }
   },
   data() {
       return {
