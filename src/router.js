@@ -33,41 +33,32 @@ let router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-    /*eslint no-console: "off"*/
-    
+  if (to.matched.some(record => record.meta.requiresAuth)) {
     if (localStorage.getItem('jwt') == null) {
-      console.log('jwt = null')
       next({
         path: '/login',
         params: { nextUrl: to.fullPath }
       })
     } else {
-      
       let user = localStorage.getItem('user')
-      if(to.matched.some(record => record.meta.is_admin)) {
-        if(user.is_admin == 1){
+      if (to.matched.some(record => record.meta.is_admin)) {
+        if (user.is_admin == 1) {
           next()
-        }
-        else{
-          console.log('1')
+        } else {
           next({ name: 'userboard'})
         }
-      }else {
+      } else {
         next()
       }
     }
-  } else if(to.matched.some(record => record.meta.guest)) {
+  } else if (to.matched.some(record => record.meta.guest)) {
     
-    if(localStorage.getItem('jwt') == null){
+    if (localStorage.getItem('jwt') == null) {
       next()
-    }
-    else{
+    } else {
       next({ name: 'userboard'})
     }
-  }else {
-    
-    console.log('clear')
+  } else {
     localStorage.clear()
     next() 
   }
